@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stopwatch - Prodigy Infotech</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #0066ff, #00ccff);
+      text-align: center;
+      padding: 40px;
+    }
+
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      width: 300px;
+      margin: auto;
+      box-shadow: 0px 0px 20px rgba(0,0,0,0.3);
+    }
+
+    #display {
+      font-size: 40px;
+      margin: 20px 0;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 10px;
+      margin: 5px;
+      width: 70px;
+      border: none;
+      background: #0066ff;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0044aa;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-height: 150px;
+      overflow-y: auto;
+    }
+
+    li {
+      background: #f1f1f1;
+      margin: 5px 0;
+      padding: 6px;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Stopwatch</h1>
+
+    <div id="display">00:00:00</div>
+
+    <div>
+      <button onclick="start()">Start</button>
+      <button onclick="pause()">Pause</button>
+      <button onclick="reset()">Reset</button>
+      <button onclick="lap()">Lap</button>
+    </div>
+
+    <h3>Lap Times</h3>
+    <ul id="laps"></ul>
+  </div>
+
+  <script>
+    let seconds = 0;
+    let minutes = 0;
+    let hours = 0;
+    let timer = null;
+
+    function updateDisplay() {
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+      document.getElementById("display").innerText = h + ":" + m + ":" + s;
+    }
+
+    function stopwatch() {
+      seconds++;
+
+      if (seconds == 60) {
+        seconds = 0;
+        minutes++;
+      }
+
+      if (minutes == 60) {
+        minutes = 0;
+        hours++;
+      }
+
+      updateDisplay();
+    }
+
+    function start() {
+      if (timer === null) {
+        timer = setInterval(stopwatch, 1000);
+      }
+    }
+
+    function pause() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function reset() {
+      clearInterval(timer);
+      timer = null;
+      seconds = 0;
+      minutes = 0;
+      hours = 0;
+      document.getElementById("laps").innerHTML = "";
+      updateDisplay();
+    }
+
+    function lap() {
+      let lapTime = document.getElementById("display").innerText;
+      let li = document.createElement("li");
+      li.innerText = "Lap: " + lapTime;
+      document.getElementById("laps").appendChild(li);
+    }
+  </script>
+
+</body>
+</html>
